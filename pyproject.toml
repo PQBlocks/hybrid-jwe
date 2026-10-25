@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pqblocks-jwe"
+version = "0.1.0"
+description = "Compact five-part wire format, with a serializer and structural parser, for hybrid ML-KEM-768 + X25519 JWE-style tokens; it performs no encryption itself."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.11"
+authors = [{name = "The PQBlocks Authors"}]
+keywords = ["jwe", "jose", "post-quantum", "ml-kem", "x25519", "hybrid", "serialization", "parser", "base64url"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security :: Cryptography",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = ["jwcrypto"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/PQBlocks/hybrid-jwe"
+Documentation = "https://github.com/PQBlocks/hybrid-jwe#readme"
+Source = "https://github.com/PQBlocks/hybrid-jwe"
+Changelog = "https://github.com/PQBlocks/hybrid-jwe/blob/main/CHANGELOG.md"
+Issues = "https://github.com/PQBlocks/hybrid-jwe/issues"
+Security = "https://github.com/PQBlocks/hybrid-jwe/security/policy"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,151 @@
+{
+ "package": "pqblocks-jwe",
+ "generated": "2026-10-22T09:52:00Z",
+ "what_is_timed": {
+  "ours": "serialize_jwe and parse_jwe: canonical JSON + base64url encoding of caller-supplied bytes, no cryptography",
+  "incumbent": "jwcrypto 1.6.1 JWE compact serialization with alg=dir, enc=A256GCM: performs AES-256-GCM encryption of the payload, no AAD"
+ },
+ "baseline": {
+  "name": "jwcrypto",
+  "version": "1.6.1"
+ },
+ "tuning_budget_symmetry": "Identical process model and budget for both sides: 20 warm-up iterations excluded, 200 timed iterations per (implementation, payload size) pair, same wall-clock window, single-threaded, no other load.",
+ "hardware_fingerprint": {
+  "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+  "cores": 8,
+  "ram_bytes": 35430400,
+  "os": "Linux-7.2.6-1-cachyos-x86_64-with-glibc2.44",
+  "python": "3.14.8",
+  "governor": "powersave"
+ },
+ "sizes_benched": [
+  64,
+  1024,
+  65536,
+  1048576
+ ],
+ "cases": [
+  {
+   "case_id": "payload-64",
+   "payload_bytes": 64,
+   "ours_token_bytes": 1760,
+   "ours_kem_overhead_bytes": 1674,
+   "ours_stanza_bytes": {
+    "header": 123,
+    "protected": 78,
+    "payload": 86,
+    "aad": 18,
+    "kem_ct": 1451
+   },
+   "incumbent_token_bytes": 171,
+   "iterations": 200,
+   "warmup_excluded": 20,
+   "equality": {
+    "ours_roundtrip_ok": true,
+    "incumbent_roundtrip_ok": true,
+    "ours_stanza_count": 5,
+    "ours_stanzas_decodable": true,
+    "ours_payload_matches": true
+   },
+   "ours_median_ms": 0.0289065,
+   "ours_p99_ms": 0.051218,
+   "ours_stdev_ms": 0.03999664889766033,
+   "incumbent_median_ms": 0.25117849999999997,
+   "incumbent_p99_ms": 0.5915,
+   "raw_file": "payload-64.json"
+  },
+  {
+   "case_id": "payload-1024",
+   "payload_bytes": 1024,
+   "ours_token_bytes": 3040,
+   "ours_kem_overhead_bytes": 1674,
+   "ours_stanza_bytes": {
+    "header": 123,
+    "protected": 78,
+    "payload": 1366,
+    "aad": 18,
+    "kem_ct": 1451
+   },
+   "incumbent_token_bytes": 1451,
+   "iterations": 200,
+   "warmup_excluded": 20,
+   "equality": {
+    "ours_roundtrip_ok": true,
+    "incumbent_roundtrip_ok": true,
+    "ours_stanza_count": 5,
+    "ours_stanzas_decodable": true,
+    "ours_payload_matches": true
+   },
+   "ours_median_ms": 0.041799,
+   "ours_p99_ms": 0.069822,
+   "ours_stdev_ms": 0.007470969579584054,
+   "incumbent_median_ms": 0.257923,
+   "incumbent_p99_ms": 0.481552,
+   "raw_file": "payload-1024.json"
+  },
+  {
+   "case_id": "payload-65536",
+   "payload_bytes": 65536,
+   "ours_token_bytes": 89056,
+   "ours_kem_overhead_bytes": 1674,
+   "ours_stanza_bytes": {
+    "header": 123,
+    "protected": 78,
+    "payload": 87382,
+    "aad": 18,
+    "kem_ct": 1451
+   },
+   "incumbent_token_bytes": 87467,
+   "iterations": 200,
+   "warmup_excluded": 20,
+   "equality": {
+    "ours_roundtrip_ok": true,
+    "incumbent_roundtrip_ok": true,
+    "ours_stanza_count": 5,
+    "ours_stanzas_decodable": true,
+    "ours_payload_matches": true
+   },
+   "ours_median_ms": 0.598447,
+   "ours_p99_ms": 0.852897,
+   "ours_stdev_ms": 0.08724986309594462,
+   "incumbent_median_ms": 0.845018,
+   "incumbent_p99_ms": 1.431996,
+   "raw_file": "payload-65536.json"
+  },
+  {
+   "case_id": "payload-1048576",
+   "payload_bytes": 1048576,
+   "ours_token_bytes": 1399776,
+   "ours_kem_overhead_bytes": 1674,
+   "ours_stanza_bytes": {
+    "header": 123,
+    "protected": 78,
+    "payload": 1398102,
+    "aad": 18,
+    "kem_ct": 1451
+   },
+   "incumbent_token_bytes": 1398187,
+   "iterations": 200,
+   "warmup_excluded": 20,
+   "equality": {
+    "ours_roundtrip_ok": true,
+    "incumbent_roundtrip_ok": true,
+    "ours_stanza_count": 5,
+    "ours_stanzas_decodable": true,
+    "ours_payload_matches": true
+   },
+   "ours_median_ms": 7.772464,
+   "ours_p99_ms": 10.842347,
+   "ours_stdev_ms": 1.2086107427589043,
+   "incumbent_median_ms": 5.959667,
+   "incumbent_p99_ms": 8.254374,
+   "raw_file": "payload-1048576.json"
+  }
+ ],
+ "raw_files": [
+  "payload-64.json",
+  "payload-1024.json",
+  "payload-65536.json",
+  "payload-1048576.json"
+ ]
+}
