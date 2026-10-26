@@ -1,11 +1,11 @@
 # pqblocks-jwe
 
 A compact five-part wire format for hybrid post-quantum/classical (ML-KEM-768 + X25519) JWE-style tokens, plus a serializer and a structural parser (it does not validate `alg` or `enc` values). **It does not encrypt anything.**
-Use it when you already produce the AEAD ciphertext and the hybrid KEM ciphertext yourself and need one deterministic, structurally validated token to carry them. To actually encrypt, decrypt or sign, use [`pqblocks-jose`](https://github.com/PQBlocks/hybrid-jose) instead.
+Use it when you already produce the AEAD ciphertext and the hybrid KEM ciphertext yourself and need one deterministic, structurally validated token to carry them. To encrypt, decrypt or sign, you need a separate JOSE implementation. The PQBlocks one, `pqblocks-jose`, is not yet public.
 Standards used: base64url (RFC 4648 §5) and JSON (RFC 8259), with a layout modelled on JWE compact serialization (RFC 7516). The layout is **not** RFC 7516 compact serialization, and standard JOSE libraries cannot read it.
 
 ```bash
-pip install pqblocks-jwe
+pip install git+https://github.com/PQBlocks/hybrid-jwe
 ```
 
 ```python
@@ -24,7 +24,7 @@ print(len(token), parsed["aad"], len(parsed["kem_ct"]))   # 1697 b'settlement-v1
 ## Why PQBlocks
 
 - **What this package is:** a wire format and its parser/serializer. It does no key generation, KEM encapsulation, key derivation or AEAD. Everything you pass in as `payload` is written to the token **as is**. If you pass plaintext, the token carries plaintext.
-- **When to use `pqblocks-jose` instead:** whenever you need the cryptography itself. `pqblocks-jose` is the full PQBlocks JOSE suite: hybrid encryption and decryption (`encrypt_jwe` / `decrypt_jwe`) and signatures (`encode_jws` / `decode_jws`). Use `pqblocks-jwe` only for this five-part layout, for example to carry ciphertext produced by your own KEM and AEAD stack, or to inspect and validate tokens in that layout.
+- **When you need something else:** whenever you need the cryptography itself, use a JOSE implementation that performs the KEM and AEAD. The PQBlocks one, `pqblocks-jose`, is not yet public. Use `pqblocks-jwe` only for this five-part layout, for example to carry ciphertext produced by your own KEM and AEAD stack, or to inspect and validate tokens in that layout.
 - **Tested:** 16 tests in one test file, 100 % statement and branch coverage of a 53-statement module. That suite is small. See [TESTING.md](TESTING.md) for what it does not cover.
 - **Honest benchmarks:** the comparison with jwcrypto is published, including the case where jwcrypto is faster, together with the reason the comparison is not like-for-like ([BENCHMARKS.md](BENCHMARKS.md)).
 - **Licence:** Apache-2.0.
@@ -89,4 +89,4 @@ This package protects nothing by itself. See [SECURITY_NOTES.md](SECURITY_NOTES.
 
 ## Part of PQBlocks
 
-[PQBlocks](https://github.com/PQBlocks) builds open, tested building blocks for the post-quantum transition. This package is the wire-format layer. The cryptography lives in [`pqblocks-jose`](https://github.com/PQBlocks/hybrid-jose).
+[PQBlocks](https://github.com/PQBlocks) builds open, tested building blocks for the post-quantum transition. This package is the wire-format layer. The cryptography lives in a separate JOSE implementation; the PQBlocks one, `pqblocks-jose`, is not yet public.

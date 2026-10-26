@@ -8,12 +8,13 @@
 ## How to run
 
 ```bash
-pip install "pqblocks-jwe[test]"
-pytest -q                      # from a checkout: pip install -e ".[test]" first
+git clone https://github.com/PQBlocks/hybrid-jwe && cd hybrid-jwe
+pip install -e ".[test]"
+pytest -q
 pytest -q --cov=pqblocks_jwe --cov-branch --cov-report=term-missing   # needs pytest-cov
 ```
 
-## Results (measured 2026-10-25 UTC)
+## Results (measured 2026-10-26 UTC)
 
 | Python | Install source | Tests | Examples |
 |---|---|---|---|
@@ -32,7 +33,7 @@ The dependencies resolved at release were jwcrypto 1.6.1, cryptography 50.0.2, c
 | `jwe.py` | 53 | 0 | 12 | 0 | 100 % |
 | **Total** | **55** | **0** | **12** | **0** | **100 %** |
 
-During the build, mutation testing killed 83 mutants and 52 survived (61.5 % of the mutants that had a covering test). That means about four in ten small code changes that the tests reach are not detected by them.
+Mutation testing was run during the build (83 killed, 52 survived); its report is not shipped with the package. That is 61.5 % of the mutants that had a covering test: about four in ten small code changes that the tests reach are not detected by them.
 
 ## What the tests check: `tests/test_serialize_jwe.py` (16)
 
@@ -86,4 +87,4 @@ Each example checks its own answer (it ends with an `assert`) and runs in every 
 - **Property-based or fuzz testing:** none.
 - **Interoperability:** no test against another implementation of this layout (none is known to exist).
 - **Cryptography:** none to test. No KEM, KDF or AEAD code exists in this package.
-- **Not in this suite:** a larger generated case matrix (60 cases) was run before release but is not shipped. Its results are summarised in [VERIFICATION_REPORT.md](VERIFICATION_REPORT.md).
+- **Not in this suite:** a larger generated case matrix (60 cases) was run before release but is not shipped. Its results are summarised in [VERIFICATION_REPORT.md](VERIFICATION_REPORT.md). The matrix and its results are not shipped and cannot be reproduced from this repository.

@@ -56,6 +56,6 @@ for n in (64, 1024, 8192):
 
 ## When to use something else
 
-- **You need encryption, decryption or signatures.** Use [`pqblocks-jose`](https://github.com/PQBlocks/hybrid-jose), the full PQBlocks JOSE suite (`encrypt_jwe` / `decrypt_jwe`, `encode_jws` / `decode_jws`).
+- **You need encryption, decryption or signatures.** To encrypt, decrypt or sign, you need a separate JOSE implementation. The PQBlocks one, `pqblocks-jose`, is not yet public.
 - **You need standard RFC 7516 JWE interoperability** with existing JOSE libraries or identity providers. This layout is not RFC 7516 compact serialization. Use a JOSE library for that.
 - **You need a FIPS 140-3 validated module.** This package is not one, and it contains no cryptography to validate.

@@ -7,7 +7,7 @@ This is a **self-verification** report: what was checked, how, and with what res
 | Area | Result |
 |---|---|
 | Correctness | 16/16 tests pass (one test file); round trip, determinism, key-order independence and 12 rejection paths |
-| Coverage | 100 % statements and branches (55 statements, 12 branches); mutation testing: 83 killed, 52 survived |
+| Coverage | 100 % statements and branches (55 statements, 12 branches); mutation testing during the build: 83 killed, 52 survived (report not shipped) |
 | Install as a user gets it | wheel installed from scratch with PyPI dependencies on Python 3.11, 3.12, 3.13 and 3.14: all tests and both examples pass |
 | Packaging | sdist and wheel build cleanly; `twine check --strict` passes |
 | Dependencies | `pip-audit` 2.10.1: no known vulnerabilities (jwcrypto 1.6.1, cryptography 50.0.2, cffi 2.1.1, pycparser 3.12, typing-extensions 4.16.0) |
@@ -26,7 +26,7 @@ This is a **self-verification** report: what was checked, how, and with what res
 | Check 5 (adversarial review) | Pathological input, misuse, claims audit | Pass after three failed attempts. Earlier attempts raised empty-field handling, which remains open (see below) |
 | Release check (this report) | Rename, build, fresh-environment install on four Pythons, leak scan, dependency audit, crypto-integration review | Pass |
 
-## Release-check evidence (2026-10-25 UTC)
+## Release-check evidence (2026-10-26 UTC)
 
 ```
 build sdist+wheel                  PASS  pqblocks_jwe-0.1.0-py3-none-any.whl
@@ -36,9 +36,11 @@ python 3.12: tests                 PASS  16 passed
 python 3.13: tests                 PASS  16 passed
 python 3.14: tests                 PASS  16 passed
 examples (roundtrip, reject_hostile) PASS on all four versions
-public-text scan (folder + wheel + sdist) PASS  0 hits
-pip-audit                          No known vulnerabilities found
+public-text scan (folder + wheel + sdist) PASS  56 files scanned, 0 hits
+FINAL GATE pqblocks-jwe: PASS
 ```
+
+`pip-audit` (run 2026-10-25 UTC, not re-run): no known vulnerabilities found.
 
 Before the rename, the original suite gave 16 passed. After the rename it gave 16 passed again (equal to the baseline), and 16 passed on the installed wheel in a clean room.
 
@@ -50,7 +52,7 @@ Before the rename, the original suite gave 16 passed. After the rename it gave 1
 
 ## Known limitations (open)
 
-- **No cryptography:** this package is a format, not a protection. Use `pqblocks-jose` for encryption.
+- **No cryptography:** this package is a format, not a protection. For encryption, use a JOSE implementation that performs the KEM and AEAD (`pqblocks-jose` is not yet published).
 - **Open review findings** (details in SECURITY_NOTES.md):
   - MEDIUM: no encryption behind a JWE-like name;
   - MEDIUM: `alg` / `enc` are not checked;
@@ -62,7 +64,9 @@ Before the rename, the original suite gave 16 passed. After the rename it gave 1
   - 3 are a lenient reference oracle;
   - 2 are a generator bug, with a missing parameter;
   - 1 is the real empty-AAD round-trip gap listed above. It was first classified as an oracle defect, but the product does reject that token.
-- **Small suite:** 16 tests, no property-based or fuzz testing; mutation testing left 52 surviving mutants.
+
+  The matrix and its results are not shipped and cannot be reproduced from this repository.
+- **Small suite:** 16 tests, no property-based or fuzz testing; Mutation testing was run during the build (83 killed, 52 survived); its report is not shipped with the package.
 - **Benchmarks:** one machine, high run-to-run variance; the jwcrypto comparison is not like-for-like.
 
 ## Validation status

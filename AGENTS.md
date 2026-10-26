@@ -3,8 +3,8 @@
 Guidance for AI coding agents using this package.
 
 - **Use it for:** serializing and parsing the five-part hybrid token `header.protected.payload.aad.kem_ct` when the ciphertext and the hybrid ML-KEM-768 + X25519 KEM ciphertext are **already produced elsewhere**.
-- **Do not use it to encrypt.** It has no KEM, KDF or AEAD. For encryption, decryption or signatures use `pqblocks-jose` (`encrypt_jwe` / `decrypt_jwe`, `encode_jws` / `decode_jws`).
-- **Install:** `pip install pqblocks-jwe`
+- **Do not use it to encrypt.** It has no KEM, KDF or AEAD. For encryption, decryption or signatures use a JOSE implementation that performs the KEM and AEAD (`pqblocks-jose` is not yet published).
+- **Install:** `pip install git+https://github.com/PQBlocks/hybrid-jwe`
 - **Correct import:** `from pqblocks_jwe import serialize_jwe, parse_jwe, InvalidJWEError, ALG_HYBRID, ENC_A256GCM`
 - **Call:**
   - `token = serialize_jwe(ciphertext, header_dict, protected_dict, aad, kem_ct)` returns ASCII `bytes`.

@@ -28,7 +28,7 @@ Pure Python. The only runtime dependency is jwcrypto, and only its base64url hel
 
 | Severity | Issue | What to do |
 |---|---|---|
-| MEDIUM | No encryption is performed, and the `alg` label and the parameter name `payload` can suggest otherwise. | Pass only ciphertext you produced. Use `pqblocks-jose` if you need encryption. |
+| MEDIUM | No encryption is performed, and the `alg` label and the parameter name `payload` can suggest otherwise. | Pass only ciphertext you produced. If you need encryption, use a JOSE implementation that performs the KEM and AEAD (`pqblocks-jose` is not yet published). |
 | MEDIUM | `alg` / `enc` are never checked, so a token with `alg: none` parses without error. | Check both against your expected values after `parse_jwe`. |
 | MEDIUM | Very deeply nested JSON in the header stanzas (around 100,000 levels in our probe) raises `RecursionError`, which is **not** an `InvalidJWEError`. There is no size limit. | Cap the token length before parsing, and catch `RecursionError` as well as `InvalidJWEError`. |
 | LOW | Lenient base64url: `=` padding is accepted, characters outside the alphabet are silently dropped (`YWJj!!!!` decodes like `YWJj`), and non-canonical trailing bits are accepted. Different byte strings parse to the same fields. | Do not key replay caches or deduplication on raw token bytes; key them on parsed fields or on your AEAD output. |

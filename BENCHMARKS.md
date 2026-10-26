@@ -63,7 +63,7 @@ At 1 KiB the stanzas are: header 123, protected 78, payload 1,366, aad 18, kem_c
 - **Not like-for-like.** Ours encodes bytes; jwcrypto encrypts them. Our lower latency at small and medium sizes does **not** show that a hybrid PQ JWE is faster than a classical one. A complete hybrid flow adds ML-KEM-768 encapsulation, X25519, a KDF and AEAD on top of these numbers. None of that was measured here.
 - **The `kem_ct` stanza holds a 1088-byte placeholder.** It does not hold real ML-KEM-768 + X25519 output, which would be 1088 + 32 bytes. With a real 1120-byte value the token grows by about 43 characters.
 - **About the internal 1,568-byte size target:** an internal benchmark summary reported a "measured" hybrid KEM ciphertext of 1,120 bytes against a 1,568-byte target. That value is a constant written into the benchmark script, not a measurement, and it is not repeated here as a result. The measured full token at 1 KiB is 3,040 bytes.
-- **One machine, `powersave` governor, no confidence intervals.** Run-to-run variance is large. An identical run two minutes earlier (09:49 UTC, also 200 iterations) measured serialize medians of 0.0126 / 0.0160 / 0.2637 / 6.0041 ms for ours and 0.0952 / 0.1036 / 0.3153 / 4.0795 ms for jwcrypto, which is up to 2.6x lower than the run above. Its raw files are not shipped. The ordering, including the 1 MiB loss, was the same in both runs.
+- **One machine, `powersave` governor, no confidence intervals.** Run-to-run variance is large. An identical run two minutes earlier (09:49 UTC) gave lower medians. Its raw files are not shipped, so its numbers are not reproduced here. The ordering, including the 1 MiB loss, was the same.
 
 ## Reproducing
 
